@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>HP Beauty</title>
+	<link rel="stylesheet" href="libs/swiper/swiper-bundle.min.css" />
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body class="home">
+	<div id="app">
+		<myheader></myheader>
+		<myvalue></myvalue>
+		<myservices></myservices>
+		<mynews></mynews>
+		<mypartner></mypartner>
+		<mycontact></mycontact>
+		<myfooter></myfooter>
+		<div class="social-fixed">
+			<a href="tel:(+84) 24 66633219" title="" class="d-none d-lg-inline-flex">
+				<img src="../template/images/social-fixed-phone.png" alt="">
+			</a>
+			<a href="javascript:;" title="" id="scrollToTop" class="">
+				<img src="../template/images/scroll-to-top.png" alt="">
+			</a>
+		</div>
+		<div class="mobile-widget-fixed d-flex d-lg-none">
+			<a href="tel:(+84) 24 66633219" title="">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M6.62 10.79C8.06 13.62 10.38 15.93 13.21 17.38L15.41 15.18C15.68 14.91 16.08 14.82 16.43 14.94C17.55 15.31 18.76 15.51 20 15.51C20.55 15.51 21 15.96 21 16.51V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="#84B5E9"></path>
+				</svg>
+				Gọi điện
+			</a>
+			<a href="https://www.facebook.com/truongthanhdaiviet" title="" target="_blank">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M21.99 4C21.99 2.9 21.1 2 20 2H4C2.9 2 2 2.9 2 4V16C2 17.1 2.9 18 4 18H18L22 22L21.99 4Z" fill="#84B5E9"></path>
+				</svg>
+				Nhắn tin
+			</a>
+			<a href="https://truongthanhdaiviet.com.vn/lien-he" title="" target="_blank">
+				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M12 2C7.8 2 4 5.22 4 10.2C4 13.52 6.67 17.45 12 22C17.33 17.45 20 13.52 20 10.2C20 5.22 16.2 2 12 2ZM12 12C10.9 12 10 11.1 10 10C10 8.9 10.9 8 12 8C13.1 8 14 8.9 14 10C14 11.1 13.1 12 12 12Z" fill="#84B5E9"></path>
+				</svg>
+				Chỉ đường
+			</a>
+		</div>
+	</div>
+	<script src="js/vue.js"></script>
+	<script src="js/httpvueloader.js"></script>
+	<script src="libs/jquery/jquery.min.js"></script>
+	<script src="libs/bootstrap/popper.min.js"></script>
+	<script src="libs/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./libs/swiper/swiper-bundle.min.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		var app = new Vue({
+			el: '#app',
+			components: {
+				myheader: httpVueLoader('vue_components/header.vue'),
+				myfooter: httpVueLoader('vue_components/footer.vue'),
+				myvalue: httpVueLoader('vue_components/value.vue'),
+				myservices: httpVueLoader('vue_components/services.vue'),
+				mynews: httpVueLoader('vue_components/news.vue'),
+				mypartner: httpVueLoader('vue_components/partner.vue'),
+				mycontact: httpVueLoader('vue_components/contact.vue'),
+				
+			},
+			mounted() {
+				$(window).bind('load', function () {
+					if ($(window).width() >= 992) {
+						$(document).ready(function () {
+							let submenu = $('.menu-sub.is-pc');
+							let submenuHeight = submenu.innerHeight();
+							let overlay = $('.menu-sub-overlay');
+							let headerMainHeight = $('.header-main').innerHeight();
+
+							overlay.css('height', submenuHeight + 10);
+
+							$(window).scroll(function () {
+								if ($('.header').is('.sticky'))
+									overlay.css('top', headerMainHeight);
+								else overlay.css('top', 'auto');
+							});
+
+							$('.menu-parent').each(function (index, item) {
+								if ($(item).children().is('.menu-sub')) {
+									console.log('contains');
+									$(item).mouseenter(function () {
+										$('.menu-sub-overlay').addClass('is-show');
+									});
+									$(item).mouseleave(function () {
+										$('.menu-sub-overlay').removeClass('is-show');
+									});
+								}
+							});
+						});
+					}
+
+					if ($(window).width() < 992) {
+						$(document).ready(function () {
+							$('.menu-parent').each(function (index, item) {
+								if ($(item).children().is('.menu-sub')) {
+									console.log('contains mobile');
+									$(item).find('.has-chevron').css('pointer-events', 'none');
+								}
+
+								$(item).click(function () {
+									$(this).find('.has-chevron').siblings().slideToggle();
+									$(this).find('.has-chevron').toggleClass('rotate');
+								});
+							});
+						});
+					}
+
+					//Search
+					$('#search').keypress(function(e) {
+						if (e.which == 13) {
+							e.preventDefault();
+							submit_search($('#search').val())
+						}
+					});
+
+					$('#search_submit').click(function() {
+						submit_search($('#search').val());
+					});
+
+					function submit_search(keyword) {
+						if (keyword.length < 2) {
+							let validate_search = "Vui lòng nhập từ khóa tìm kiếm nhiều hơn 1 ký tự!"
+							swal_show(noti.noti,validate_search);
+							return false;
+						} else {
+							$('.form-search').submit();
+						}
+					}
+
+
+					$( ".copyClipboard" ).click(function() {
+						var inputc = document.body.appendChild(document.createElement("input"));
+						inputc.value = window.location.href;
+						inputc.select();
+						document.execCommand('copy');
+						inputc.parentNode.removeChild(inputc);
+						Swal.fire({
+							type: "success",
+							title: noti.noti,
+							text: "Bạn đã Copy đường dẫn thành công!"
+						});
+					});
+
+				});
+			},
+		});
+	</script>
+	<script>
+        $(document).ready(function() {
+            // banner textbox JS
+            if ($(window).width() >= 992) {
+                let w_window = $(document).innerWidth();
+                let w_container = $('.web-container').innerWidth();
+                $('#js__marginCalculate').css({
+                    'padding-left': (w_window - w_container + 18) / 2,
+                    'opacity': "1",
+                    "visibility": "visible",
+                    "pointer-events": "inherit",
+                })
+            }
+
+            // Initialize Swiper
+            var swiper__ourservices = new Swiper("#swiper__ourservices .mySwiper", {
+                centeredSlides: true,
+                centeredSlidesBounds: true,
+                spaceBetween: 0,
+                speed: 1500,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                // Responsive breakpoints
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1.15,
+                    },
+                    576: {
+                        slidesPerView: 2,
+                    },
+                    768: {
+                        slidesPerView: 3.5,
+                    },
+                    1200: {
+                        slidesPerView: 4,
+                    }
+                },
+                navigation: {
+                    nextEl: "#swiper__ourservices .swiper-button-next",
+                    prevEl: "#swiper__ourservices .swiper-button-prev",
+                },
+                pagination: {
+                    el: "#swiper__ourservices .swiper-pagination",
+                    clickable: true
+                },
+                on: {
+                    init: function() {
+                        if ($(window).width() >= 768) this.slideTo(2);
+                    },
+                },
+            });
+
+            // Initialize Swiper
+            var swiper__blogevents = new Swiper("#swiper__blogevents .mySwiper", {
+                // Responsive breakpoints
+                breakpoints: {
+                    320: {
+                        slidesPerView: 1,
+                        slidesPerGroup: 1,
+                        spaceBetween: 30,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                        slidesPerGroup: 2,
+                        spaceBetween: 30,
+                    },
+                    992: {
+                        slidesPerView: 3,
+                        slidesPerGroup: 3,
+                        spaceBetween: 30,
+                    }
+                },
+                pagination: {
+                    el: "#swiper__blogevents .swiper-pagination",
+                },
+                navigation: {
+                    nextEl: "#swiper__blogevents .swiper-button-next",
+                    prevEl: "#swiper__blogevents .swiper-button-prev",
+                },
+                on: {
+                    init: function() {
+                        let index = $('.swiper-counting-paginate .index');
+                        let slides = $('.swiper-counting-paginate .slides');
+
+                        // console.log(this);
+                        // console.log(this.pagination.bullets.length);
+                        // console.log(this.snapIndex + 1);
+
+                        index.text(this.snapIndex + 1)
+                        slides.text(this.pagination.bullets.length)
+                    },
+
+                    slideChange: function() {
+                        let index = $('.swiper-counting-paginate .index');
+                        let slides = $('.swiper-counting-paginate .slides');
+
+                        // console.log(this);
+                        // console.log(this.pagination.bullets.length);
+                        // console.log(this.snapIndex + 1);
+
+                        index.text(this.snapIndex + 1)
+                        slides.text(this.pagination.bullets.length)
+                    },
+                },
+            });
+
+            // Initialize Swiper
+            var swiper__homeClientsPartner = new Swiper("#swiper__homeClientsPartner .mySwiper", {
+                breakpoints: {
+                    320: {
+                        slidesPerView: 2,
+                        spaceBetween: 20,
+                        grid: {
+                            fill: 'row',
+                            rows: 2,
+                        },
+                    },
+                    768: {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                        grid: {
+                            fill: 'row',
+                            rows: 2,
+                        },
+                    },
+                    1200: {
+                        slidesPerView: 4,
+                        spaceBetween: 30,
+                        grid: {
+                            fill: 'row',
+                            rows: 2,
+                        },
+                    },
+                },
+                pagination: {
+                    el: "#swiper__homeClientsPartner .swiper-pagination",
+                    type: "progressbar",
+                },
+                navigation: {
+                    nextEl: "#swiper__homeClientsPartner .swiper-button-next",
+                    prevEl: "#swiper__homeClientsPartner .swiper-button-prev",
+                },
+            });
+        });
+    </script>
+</body>
+
+</html>
