@@ -52,7 +52,7 @@
 	<script src="libs/jquery/jquery.min.js"></script>
 	<script src="libs/bootstrap/popper.min.js"></script>
 	<script src="libs/bootstrap/bootstrap.min.js"></script>
-	<script type="text/javascript" src="./libs/swiper/swiper-bundle.min.js"></script>
+	<script type="text/javascript" src="libs/swiper/swiper-bundle.min.js"></script>
 	<script src="js/main.js"></script>
 	<script>
 		var app = new Vue({
@@ -61,8 +61,8 @@
 				myheader: httpVueLoader('vue_components/header.vue'),
 				myfooter: httpVueLoader('vue_components/footer.vue'),
 				myvalue: httpVueLoader('vue_components/value.vue'),
-				myservices: httpVueLoader('vue_components/services.vue'),
-				mynews: httpVueLoader('vue_components/news.vue'),
+				myservices: httpVueLoader('vue_components/services2.vue'),
+				mynews: httpVueLoader('vue_components/news2.vue'),
 				mypartner: httpVueLoader('vue_components/partner.vue'),
 				mycontact: httpVueLoader('vue_components/contact.vue'),
 				
@@ -161,7 +161,6 @@
                 let w_window = $(document).innerWidth();
                 let w_container = $('.web-container').innerWidth();
                 $('#js__marginCalculate').css({
-                    'padding-left': (w_window - w_container + 18) / 2,
                     'opacity': "1",
                     "visibility": "visible",
                     "pointer-events": "inherit",
@@ -169,7 +168,7 @@
             }
 
             // Initialize Swiper
-            var swiper__ourservices = new Swiper("#swiper__ourservices .mySwiper", {
+            var swiper_services = new Swiper("#services-swiper-id", {
                 centeredSlides: true,
                 centeredSlidesBounds: true,
                 spaceBetween: 0,
@@ -194,12 +193,8 @@
                     }
                 },
                 navigation: {
-                    nextEl: "#swiper__ourservices .swiper-button-next",
-                    prevEl: "#swiper__ourservices .swiper-button-prev",
-                },
-                pagination: {
-                    el: "#swiper__ourservices .swiper-pagination",
-                    clickable: true
+                    nextEl: "#services-swiper-next",
+                    prevEl: "#services-swiper-prev",
                 },
                 on: {
                     init: function() {
@@ -209,7 +204,7 @@
             });
 
             // Initialize Swiper
-            var swiper__blogevents = new Swiper("#swiper__blogevents .mySwiper", {
+            var swiper__blogevents = new Swiper("#news-swiper-id", {
                 // Responsive breakpoints
                 breakpoints: {
                     320: {
@@ -229,33 +224,23 @@
                     }
                 },
                 pagination: {
-                    el: "#swiper__blogevents .swiper-pagination",
+                    el: "#news-swiper-id .swiper-pagination",
                 },
                 navigation: {
-                    nextEl: "#swiper__blogevents .swiper-button-next",
-                    prevEl: "#swiper__blogevents .swiper-button-prev",
+                    nextEl: "#news-swiper-next",
+                    prevEl: "#news-swiper-prev",
                 },
                 on: {
                     init: function() {
-                        let index = $('.swiper-counting-paginate .index');
-                        let slides = $('.swiper-counting-paginate .slides');
-
-                        // console.log(this);
-                        // console.log(this.pagination.bullets.length);
-                        // console.log(this.snapIndex + 1);
-
+                        let index = $('#news-swiper-id .swiper-counting-paginate .index');
+                        let slides = $('#news-swiper-id .swiper-counting-paginate .slides');
                         index.text(this.snapIndex + 1)
                         slides.text(this.pagination.bullets.length)
                     },
 
                     slideChange: function() {
-                        let index = $('.swiper-counting-paginate .index');
-                        let slides = $('.swiper-counting-paginate .slides');
-
-                        // console.log(this);
-                        // console.log(this.pagination.bullets.length);
-                        // console.log(this.snapIndex + 1);
-
+                        let index = $('#news-swiper-id .swiper-counting-paginate .index');
+                        let slides = $('#news-swiper-id .swiper-counting-paginate .slides');
                         index.text(this.snapIndex + 1)
                         slides.text(this.pagination.bullets.length)
                     },
